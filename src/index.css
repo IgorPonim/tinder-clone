@@ -1,0 +1,146 @@
+@import url('https://fonts.googleapis.com/css2?family=Readex+Pro:wght@200;300;400;500;600;700&display=swap');
+
+* {
+  font-family: 'Readex Pro', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+}
+hr{
+  margin-bottom: 25px;
+}
+h2 {
+  font-style: italic;
+}
+
+.home {
+  margin-top: 25vh;
+}
+
+.primary-button {
+  margin-top: 40px;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 15px;
+  background: linear-gradient(45deg, rgb(254, 48, 114), rgb(255, 89, 64));
+  padding: 12px 30px;
+  border-radius: 30px;
+  border-color: none;
+  border: none
+}
+
+.primary-title {
+  font-size: 90px;
+  color: white;
+  margin-top: 30px
+}
+
+.primary-button:hover {
+  background: linear-gradient(260deg, rgb(254, 48, 114), rgb(255, 89, 64));
+  cursor: pointer;
+}
+
+.secondary-button {
+  color: rgb(121, 119, 119);
+  background-color: rgb(255, 255, 255);
+  font-weight: 500px;
+  font-size: 15px;
+  text-transform: uppercase;
+  padding: 12px 30px;
+  border-radius: 30px;
+  border: solid 2px rgb(121, 119, 119);
+  margin: 6px
+}
+
+.secondary-button:hover {
+  color: rgb(48, 48, 48);
+  border: solid 2px rgb(121, 119, 119);
+  cursor: pointer;
+}
+
+body {
+  text-align: center;
+}
+
+/* -----Navbar------ */
+
+nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav .nav-button {
+  color: rgb(254, 48, 114);
+  background-color: white;
+  font-size: 20px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  margin: 10px
+}
+
+nav .nav-button:disabled {
+  background-color: rgb(181, 180, 180);
+  color: rgb(68, 18, 34)
+}
+
+nav .logo-container {
+  width: 170px;
+  margin: 15px;
+}
+
+nav .logo-container .logo {
+  width: 100%;
+}
+
+/* 
+-------Homepage--------- */
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background: linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.65) 0%,
+      rgba(0, 0, 0, 0)100%),
+    url('../src/images/tinder\ oboi.png');
+  background-size: cover;
+
+}
+
+/* ----Auth Modal------ */
+
+.auth-modal {
+  position: absolute;
+  top: 150px;
+  left: 0;
+  right: 0;
+  max-width: 360px;
+  height: 400px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 40px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.auth-modal .close-icon {
+  float: right;
+}
+
+.auth-modal form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.auth-modal input[type='password'],
+.auth-modal input[type='email'] {
+  padding: 8px;
+  margin: 8px;
+  font-size: 17px;
+}
