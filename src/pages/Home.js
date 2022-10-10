@@ -1,7 +1,7 @@
 import { useState } from "react"
 import Nav from "../components/Nav"
 import AuthModal from "../components/AuthModal"
-
+import TinderCard from "react-tinder-card"
 const Home = () => {
     const [showModal, setShowModal] = useState(false)
 
