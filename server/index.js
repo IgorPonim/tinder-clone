@@ -55,7 +55,7 @@ app.post('/signup', async (req, res) => {
             expiresIn: 60 * 24
         })
 
-        res.status(201).json({ token, user_id: generateUserId, email: sanitizedEmail })
+        res.status(201).json({ token, user_id: generateUserId })
     }
     catch (error) { console.log(error) }
 })
@@ -72,11 +72,13 @@ app.post('/login', async (req, res) => {
 
         const correctPasword = await bcrypt.compare(password, user.hashed_password)
         if (user && correctPasword) {
+
             const token = jwt.sign(user, email,
                 {
                     expiresIn: 60 * 24
                 })
-            res.status(201).json({ token, userId: user.user_id, email })
+            res.status(201).json({ token, user_id: user.user_id })
+
         }
         res.status(400).send('invalid credentials')
     }
@@ -85,19 +87,58 @@ app.post('/login', async (req, res) => {
 })
 
 
-app.get('/users', async (req, res) => {
+// app.get('/users', async (req, res) => {
+//     const client = new MongoClient(uri)
+//     try {
+//         await client.connect()
+//         const database = client.db('app-data')
+//         const users = database.collection('users')
+//         const returnedUsers = await users.find({}).toArray()
+//         res.send(returnedUsers)
+//     }
+//     finally {
+//         await client.close()
+//     }
+// })
+
+
+app.put('/user', async (req, res) => {
     const client = new MongoClient(uri)
+    const formData = req.body.formData
     try {
         await client.connect()
         const database = client.db('app-data')
         const users = database.collection('users')
-        const returnedUsers = await users.find({}).toArray()
-        res.send(returnedUsers)
-    }
-    finally {
+
+        const query = { user_id: formData.user_id }
+        const updateDocument = {
+            $set: {
+
+                first_name: formData.first_name,
+                dob_day: formData.dob_day,
+                dob_month: formData.dob_month,
+                dob_year: formData.dob_year,
+                show_gender: formData.show_gender,
+                gender_identity: formData.gender_identity,
+                gender_interest: formData.gender_interest,
+
+                url: formData.url,
+                about: formData.about,
+                matсhes: formData.matсhes,
+            }
+        }
+        const insertedUser = await users.updateOne(query, updateDocument)
+        res.send(insertedUser)
+    } finally {
         await client.close()
     }
 })
+
+
+
+
+
+
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
 });
