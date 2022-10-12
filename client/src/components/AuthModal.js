@@ -23,7 +23,7 @@ const AuthModal = ({ setShowModal, isSignUp }) => {
 
             // setCookie('Email', response.data.email)
             setCookie('UserId', response.data.user_id)
-            setCookie('Auth-token', response.data.token)
+            setCookie('AuthToken', response.data.token)
             const success = response.status == 201
 
             if (success && isSignUp) history.push('/onboarding')

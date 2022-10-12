@@ -228,7 +228,10 @@ nav .logo-container .logo {
 .onboarding form .multiple-input-container input[type='submit']:active {
   background-color: rgb(226, 115, 155);
 }
-
+.onboarding form .photo-container {
+  width: 300px;
+  height: 600px;
+}
 .onboarding form .photo-container img {
   width: 100%;
 }
