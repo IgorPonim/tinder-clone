@@ -71,12 +71,15 @@ app.post('/login', async (req, res) => {
         const user = await users.findOne({ email })
 
         const correctPasword = await bcrypt.compare(password, user.hashed_password)
-        if (user && correctPasword) {
 
-            const token = jwt.sign(user, email,
+        if (user && correctPasword) {
+            //делаю полезную нагрузкуне из всего обьекта юзер а конкретно из id
+            const token = jwt.sign({ user: user._id }, 'some-secret-key',
                 {
-                    expiresIn: 60 * 24
+                    expiresIn: 60 * 10
+
                 })
+
             res.status(201).json({ token, user_id: user.user_id })
 
         }
