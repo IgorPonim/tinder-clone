@@ -1,5 +1,6 @@
 const Chat = ({ descendingOregerMessages }) => {
 
+    
     return (
         <>
             <div className="chat-display">
@@ -7,7 +8,7 @@ const Chat = ({ descendingOregerMessages }) => {
                     return <div key={_index} >
                         <div className="chat-message-header">
                             <div className="img-container">
-                                <img src={message.img} alt={message.first_name}></img>
+                                <img className="img-container-image"src={message.img} alt={message.first_name}></img>
                             </div>
                             <p>{message.name}</p>
                         </div>

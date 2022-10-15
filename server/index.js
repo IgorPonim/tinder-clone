@@ -241,7 +241,7 @@ app.get('/messages', async (req, res) => {
 
         const foundMessages = await messages.find(query).toArray()
         res.send(foundMessages)
-        console.log(foundMessages)
+
     }
 
     finally { await client.close }
@@ -249,7 +249,19 @@ app.get('/messages', async (req, res) => {
 )
 
 
+app.post('/messages', async (req, res) => {
+    const client = new MongoClient(uri)
+    const { message } = req.body
 
+    try {
+        await client.connect()
+        const databse = client.db('app-data')
+        const messages = databse.collection('messages')
+        const insertedMessage = await messages.insertOne(message)
+        res.send(insertedMessage)
+    }
+    finally { client.close }
+})
 
 
 

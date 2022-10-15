@@ -12,6 +12,8 @@ const ChatDisplay = ({ user, clickedUser }) => {
     const [usersMessages, setUsersMessages] = useState(null)
     const [clickedUserMessages, setClickedUserMessages] = useState(null)
 
+
+
     const getUsersMessages = async () => {
         try {
             const response = await axios.get('http://localhost:8000/messages', {
@@ -21,6 +23,8 @@ const ChatDisplay = ({ user, clickedUser }) => {
         }
         catch (err) { console.log(err) }
     }
+
+
     const getClickedUsersMessages = async () => {
         try {
             const response = await axios.get('http://localhost:8000/messages', {
@@ -30,10 +34,15 @@ const ChatDisplay = ({ user, clickedUser }) => {
         }
         catch (err) { console.log(err) }
     }
+
+
+
     useEffect(() => {
         getUsersMessages()
         getClickedUsersMessages()
     }, [])
+
+
 
     const messages = []
     usersMessages?.forEach(element => {
@@ -53,13 +62,13 @@ const ChatDisplay = ({ user, clickedUser }) => {
         formatedMessage['timestamp'] = element?.timestamp
         messages.push(formatedMessage)
     });
-    const descendingOregerMessages = messages.sort((a, b) => a.timestamp - b.timestamp)
-    console.log(descendingOregerMessages)
+    const descendingOregerMessages = messages.sort((a, b) => a.timestamp.localeCompare(b.timestamp))
+
 
     return (
         <>
             <Chat descendingOregerMessages={descendingOregerMessages} />
-            <ChatInput />
+            <ChatInput user={user} clikedUser={clickedUser} getUsersMessages={getUsersMessages} getClickedusersMessages={getClickedUsersMessages} />
         </>
     )
 }
