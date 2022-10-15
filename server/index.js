@@ -157,7 +157,7 @@ app.get('/user', async (req, res) => {
 app.get('/gendered-users', async (req, res) => {
     const client = new MongoClient(uri)
     const gender = req.query.gender
-    console.log(gender)
+
     try {
         await client.connect()
         const database = client.db('app-data')
@@ -187,17 +187,75 @@ app.put('/addmatch', async (req, res) => {
         const database = client.db('app-data');
         const users = database.collection('users');
 
-        const query = { user_id: userId }
-        const updateDocument = {
+
+
+        const user = await users.updateOne({ user_id: userId }, {
             $push: {
-                mathches: { user_id: matchedUserId }
+                matсhes: matchedUserId
             }
-        }
-        const user = await users.updateOne(query, updateDocument)
+        })
         res.send(user)
+
     }
     finally { await client.close() }
 })
+
+app.get('/users', async (req, res) => {
+    const client = new MongoClient(uri)
+    const userIds = JSON.parse(req.query.userIds)
+
+    try {
+        await client.connect()
+        const database = client.db('app-data')
+        const users = database.collection('users');
+
+        const pipeline = [
+            {
+                '$match': {
+                    'user_id': {
+                        '$in': userIds
+                    }
+                }
+            }
+        ]
+        const foundUsers = await users.aggregate(pipeline).toArray()
+
+        res.send(foundUsers)
+
+    }
+    finally { await client.close() }
+})
+
+
+app.get('/messages', async (req, res) => {
+    const client = new MongoClient(uri);
+    const { userId, correspondingUserId } = req.query
+    try {
+        await client.connect()
+        const database = client.db('app-data')
+        const messages = database.collection('messages')
+
+        const query = {
+            from_userId: userId, to_userId: correspondingUserId
+        }
+
+        const foundMessages = await messages.find(query).toArray()
+        res.send(foundMessages)
+        console.log(foundMessages)
+    }
+
+    finally { await client.close }
+}
+)
+
+
+
+
+
+
+
+
+
 
 app.listen(PORT, () => {
     console.log(`Example app listening on port ${PORT}`);
@@ -218,3 +276,5 @@ app.listen(PORT, () => {
 //     });
 // }
 // main()
+
+

@@ -34,6 +34,7 @@ const Dashboard = () => {
     }
 
 
+
     useEffect(() => {
         getUser()
         getGenderedUsers()
@@ -42,14 +43,14 @@ const Dashboard = () => {
         getGenderedUsers()
     }, [user])
 
-    console.log(genderedUsers)
+    // console.log(genderedUsers)
 
 
 
     const [lastDirection, setLastDirection] = useState()
 
 
-    const updateMatches = async (matcheduserId) => {
+    const updateMatches = async (matchedUserId) => {
         try {
             await axios.put(`http://localhost:8000/addmatch`, {
                 userId,
@@ -59,20 +60,27 @@ const Dashboard = () => {
         } catch (err) { console.log(err) }
     }
 
-
-    const swiped = (direction, nameToDeleteId) => {
+    const swiped = (direction, swipedUserId) => {
         if (direction === 'right') {
-            updateMatches(nameToDeleteId)
+            updateMatches(swipedUserId)
         }
-
-        console.log('removing: ' + nameToDelete)
         setLastDirection(direction)
     }
 
 
     const outOfFrame = (name) => {
         console.log(name + ' left the screen!')
+
     }
+
+
+
+    const matchedUserIds = user?.matсhes.concat(userId)
+
+    const filteredGenderedUsers = genderedUsers?.filter(
+        genderedUser => !matchedUserIds.includes(genderedUser.user_id)
+    )
+
 
     return (
         <>
@@ -82,8 +90,8 @@ const Dashboard = () => {
                     <div className='swiper-container'>
                         <div className='card-container'>
 
-                            {genderedUsers?.map((character) =>
-                                <TinderCard className='swipe' key={character._id} onSwipe={(dir) => swiped(dir, character.first_name)} onCardLeftScreen={() => outOfFrame(character.first_name)}>
+                            {filteredGenderedUsers.map((character) =>
+                                <TinderCard className='swipe' key={character._id} onSwipe={(dir) => swiped(dir, character.user_id)} onCardLeftScreen={() => outOfFrame(character.first_name)}>
                                     <div style={{ backgroundImage: 'url(' + character.url + ')' }} className='card'>
                                         <h3>{character.first_name}</h3>
                                     </div>
